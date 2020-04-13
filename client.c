@@ -14,6 +14,7 @@
 int main(int argc, char *argv[])
 {	
 	srand(time(NULL));
+	signal(SIGINT, SIG_IGN);
 	int server, portNumber, n;
 	int clientScore[2];
 	struct sockaddr_in servAdd;     // server socket address
