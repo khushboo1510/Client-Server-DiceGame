@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 	char message[255];
 	
 	if(argc != 3){
-    printf("Call model: %s <IP Address> <Port Number>\n", argv[0]);
-    exit(0);
+		printf("Call model: %s <IP Address> <Port Number>\n", argv[0]);
+		exit(0);
 	}
 	
 	if((server = socket(AF_INET, SOCK_STREAM, 0))<0){
@@ -41,30 +41,25 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "connect() has failed, exiting\n");
 		exit(3);
 	}
-	
-	read(server, message, 255);
-	fprintf(stderr, "message received: %s\n", message);
-	while(1){ /* reading server’s messages */
-		if(n=read(server, message, 255)){
+
+	while(1){ 
+		if(n=read(server, message, 255)){ 	//reads message from server
 			message[n]=’\0’;
 			fprintf(stderr,"%s\n", message);
 		}
-		if(!strcasecmp(message, "You can now play\n")){
+		if(!strcasecmp(message, "You can now play\n")){		//checks server message if its client's turn
 			clientScore[0] = (rand() % 6)+1;
 			clientScore[1] +=  clientScore[0];
-		}
-		printf("Points earned: %d\n", clientScore[0]);
-		printf("Total: %d\n", clientScore[1]);
-		printf("\n");	
-		write(server, &clientScore, sizeof(clientScore));
+			printf("Points earned: %d\n", clientScore[0]);		//prints score to the screen
+			printf("Total points earned: %d\n", clientScore[1]);
+			printf("\n");	
+			write(server, &clientScore, sizeof(clientScore));	//sending its score to server 
 		
-		if(!strcasecmp(message, "Game over: you won the game\n")){
+		} else if(!strcasecmp(message, "Game over: you won the game\n")){		//checks server message if client has won
 				fprintf("I won the game" );
 				close(server);
 				exit(3);
-		}
-		
-		if(!strcasecmp(message, "Game over: you lost the game\n")){
+		}else if(!strcasecmp(message, "Game over: you lost the game\n")){		//checks server message if client has lose
 				fprintf("I lost the game" );
 				close(server);
 				exit(5);
