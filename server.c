@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 	servAdd.sin_port = htons((uint16_t)portNumber);
 	
 	bind(sd, (struct sockaddr *) &servAdd, sizeof(servAdd));
-	listen(sd, 5);
+	listen(sd, 6);
 	
 	while(1){
 		player1=accept(sd,(struct sockaddr*)NULL,NULL);
@@ -62,7 +62,7 @@ void servicePlayers(int player1, int player2){
 		}
 		
 		printf("Points earned: %d\n", player1Score[0]);		//prints points earned by client 1
-		printf("Total points earned: %d\n", player1Score[1]);		//prints total points earned by client 1 so far
+		printf("Total points earned: %d\n\n", player1Score[1]);		//prints total points earned by client 1 so far
 		
 		if(player1Score[1] >= 100){		//checks if total score of client 1 reaches 100
 			printf("TOTO won\n");
@@ -81,13 +81,13 @@ void servicePlayers(int player1, int player2){
 		}
 		
 		printf("Points earned: %d\n", player2Score[0]);		//prints points earned by client 2
-		printf("Total points earned: %d\n", player2Score[1]);		//prints total points earned by client 2 so far
+		printf("Total points earned: %d\n\n", player2Score[1]);		//prints total points earned by client 2 so far
 		
 		if(player2Score[1] >= 100){		//checks if total score of client 2 reaches 100
 			printf("TITI won\n");
-			write(player2, "Game over: you won the game",50);	//sends winning message to client 2
+			write(player2, "Game over: you won the game", 50);	//sends winning message to client 2
 			close(player2);		//closes client 2 socket
-			write(player1, "Game over: you lost the game",50);	//sends losing message to client 2
+			write(player1, "Game over: you lost the game", 50);	//sends losing message to client 2
 			close(player1);		//closes client 1 socket
 			exit(5);
 		}		
