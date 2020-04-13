@@ -1,3 +1,12 @@
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
 int main(int argc, char *argv[]){  
 	int sd, portNumber;
 	struct sockaddr_in servAdd;     // server socket address
@@ -7,7 +16,10 @@ int main(int argc, char *argv[]){
 		exit(0);
   }
 
-	sd = socket(AF_INET, SOCK_STREAM, 0);
+	if((sd = socket(AF_INET, SOCK_STREAM, 0))<0){
+		fprintf(stderr, "Could not create socket\n");
+		exit(1);
+  }
 	servAdd.sin_family = AF_INET;
 	servAdd.sin_addr.s_addr = htonl(INADDR_ANY);
 	sscanf(argv[1], "%d", &portNumber);
@@ -17,10 +29,6 @@ int main(int argc, char *argv[]){
 	listen(sd, 5);
 	if(listen(sd, 5)){
 		printf("Server is listening");
-	}
-	
-	while(1){
-
 	}
 	
 	return 0;
