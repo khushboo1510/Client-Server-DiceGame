@@ -46,25 +46,22 @@ int main(int argc, char *argv[])
 	while(1){ 
 		if(n=read(server, message, 255)){ 	//reads message from server
 			message[n]='\0';
-			fprintf(stderr,"%s\n", message);
-			exit(1);
-		}
-		if(!strcasecmp(message, "You can now play\n")){		//checks server message if its client's turn
-			clientScore[0] = (rand() % 6)+1;
-			clientScore[1] +=  clientScore[0];
-			printf("Points earned: %d\n", clientScore[0]);		//prints score to the screen
-			printf("Total points earned: %d\n", clientScore[1]);
-			printf("\n");	
-			write(server, &clientScore, sizeof(clientScore));	//sending its score to server 
-		
-		} else if(!strcasecmp(message, "Game over: you won the game\n")){		//checks server message if client has won
+			if(!strcasecmp(message, "You can now play\n")){		//checks server message if its client's turn
+				clientScore[0] = (rand() % 6)+1;
+				clientScore[1] +=  clientScore[0];
+				printf("Points earned: %d\n", clientScore[0]);		//prints score to the screen
+				printf("Total points earned: %d\n", clientScore[1]);
+				printf("\n");	
+				write(server, &clientScore, sizeof(clientScore));	//sending its score to server 
+			} else if(!strcasecmp(message, "Game over: you won the game\n")){		//checks server message if client has won
 				fprintf(stderr, "%s\n","I won the game");
 				close(server);
 				exit(3);
-		}else if(!strcasecmp(message, "Game over: you lost the game\n")){		//checks server message if client has lose
+			}else if(!strcasecmp(message, "Game over: you lost the game\n")){		//checks server message if client has lose
 				fprintf(stderr, "%s\n","I lost the game");
 				close(server);
 				exit(5);
+			}
 		}
 		
 	}
