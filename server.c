@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 int main(int argc, char *argv[]){  
-	int sd1, sd2, portNumber, player1, player2;
+	int sd, portNumber, player1, player2;
 	struct sockaddr_in servAdd;     // server socket address
 	
 	if(argc != 2){
@@ -16,25 +16,22 @@ int main(int argc, char *argv[]){
 		exit(0);
   }
 
-	if((sd = socket(AF_INET, SOCK_STREAM, 0))<0){
+	if((sd = socket(AF_INET, SOCK_STREAM, 0))<0){ 
 		fprintf(stderr, "Could not create socket\n");
 		exit(1);
   }
-	servAdd.sin_family = AF_INET;
-	servAdd.sin_addr.s_addr = htonl(INADDR_ANY);
+	servAdd.sin_family = AF_INET; //Domain for Internet, AF -> Address Family
+	servAdd.sin_addr.s_addr = htonl(INADDR_ANY); //host to network for long 
 	sscanf(argv[1], "%d", &portNumber);
 	servAdd.sin_port = htons((uint16_t)portNumber);
-
+	
 	bind(sd, (struct sockaddr *) &servAdd, sizeof(servAdd));
 	listen(sd, 5);
-	if(listen(sd, 5)){
-		printf("Server is listening");
-	}
 	
 	while(1){
 		player1=accept(sd,(struct sockaddr*)NULL,NULL);
 		player2=accept(sd,(struct sockaddr*)NULL,NULL);
-		printf("Client %d joined\n",client_count);
+		printf("Two clients joined\n");
 		if(!fork())
 		{
 		  servicePlayers(player1, player2);
