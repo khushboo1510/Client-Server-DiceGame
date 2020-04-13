@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 int main(int argc, char *argv[]){  
-	int sd, portNumber;
+	int sd1, sd2, portNumber, player1, player2;
 	struct sockaddr_in servAdd;     // server socket address
 	
 	if(argc != 2){
@@ -29,6 +29,18 @@ int main(int argc, char *argv[]){
 	listen(sd, 5);
 	if(listen(sd, 5)){
 		printf("Server is listening");
+	}
+	
+	while(1){
+		player1=accept(sd,(struct sockaddr*)NULL,NULL);
+		player2=accept(sd,(struct sockaddr*)NULL,NULL);
+		printf("Client %d joined\n",client_count);
+		if(!fork())
+		{
+		  servicePlayers(player1, player2);
+		}
+		close(player1);
+		close(player2);
 	}
 	
 	return 0;
