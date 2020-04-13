@@ -39,8 +39,6 @@ int main(int argc, char *argv[]){
 		{
 		  servicePlayers(player1, player2);
 		}
-		close(player1);
-		close(player2);
 	}
 	
 	return 0;
