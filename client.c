@@ -14,8 +14,8 @@
 int main(int argc, char *argv[])
 {	
 	srand(time(NULL));
-	int server, portNumber;
-	int clientScore[2],
+	int server, portNumber, n;
+	int clientScore[2];
 	struct sockaddr_in servAdd;     // server socket address
 	char message[255];
 	
@@ -44,8 +44,9 @@ int main(int argc, char *argv[])
 
 	while(1){ 
 		if(n=read(server, message, 255)){ 	//reads message from server
-			message[n]=’\0’;
+			message[n]='\0';
 			fprintf(stderr,"%s\n", message);
+			exit(1);
 		}
 		if(!strcasecmp(message, "You can now play\n")){		//checks server message if its client's turn
 			clientScore[0] = (rand() % 6)+1;
@@ -56,11 +57,11 @@ int main(int argc, char *argv[])
 			write(server, &clientScore, sizeof(clientScore));	//sending its score to server 
 		
 		} else if(!strcasecmp(message, "Game over: you won the game\n")){		//checks server message if client has won
-				fprintf("I won the game" );
+				fprintf(stderr, "%s\n","I won the game");
 				close(server);
 				exit(3);
 		}else if(!strcasecmp(message, "Game over: you lost the game\n")){		//checks server message if client has lose
-				fprintf("I lost the game" );
+				fprintf(stderr, "%s\n","I lost the game");
 				close(server);
 				exit(5);
 		}
