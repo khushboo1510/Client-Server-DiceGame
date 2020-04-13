@@ -44,8 +44,9 @@ int main(int argc, char *argv[])
 	}
 
 	while(1){ 
-		if(n=read(server, message, 255)){ 	//reads message from server
+		if(n=read(server, message, 50)){ 	//reads message from server
 			message[n]='\0';
+			
 			if(!strcasecmp(message, "You can now play\n")){		//checks server message if its client's turn
 				clientScore[0] = (rand() % 6)+1;
 				clientScore[1] +=  clientScore[0];
@@ -64,7 +65,5 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-	}
-	
-	
+	}	
 }
