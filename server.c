@@ -14,30 +14,38 @@ int main(int argc, char *argv[]){
 	int sd, portNumber, player1, player2;
 	struct sockaddr_in servAdd;     // server socket address
 	
-	if(argc != 2){ //checks whether port number is passed as command line arguement
+	if(argc != 2){ 		//checks whether port number is passed as command line arguement
 		printf("Call model: %s <Port Number>\n", argv[0]);
 		exit(0);
   }
 
-	if((sd = socket(AF_INET, SOCK_STREAM, 0))<0){ //checks whether socket is created or not
+	//socket() creates an endpoint for communication
+	if((sd = socket(AF_INET, SOCK_STREAM, 0))<0){ 	//checks whether socket is created or not
 		fprintf(stderr, "Could not create socket\n");
 		exit(1);
   }
-	servAdd.sin_family = AF_INET; //Domain for Internet, AF -> Address Family
-	servAdd.sin_addr.s_addr = htonl(INADDR_ANY); //host to network for long integer : INADDR_ANY(binds the socket to all available interfaces)
+	servAdd.sin_family = AF_INET; 	//Domain for Internet, AF -> Address Family
+	servAdd.sin_addr.s_addr = htonl(INADDR_ANY); 	//host to network for long integer : INADDR_ANY(binds the socket to all available interfaces)
 	sscanf(argv[1], "%d", &portNumber);
-	servAdd.sin_port = htons((uint16_t)portNumber); //host to network for short integer : port number 
+	servAdd.sin_port = htons((uint16_t)portNumber); 	//host to network for short integer : port number 
 
+	//casts socket file descriptor to the protocal-specific address structure
 	bind(sd, (struct sockaddr *) &servAdd, sizeof(servAdd));
+	
+	//listening socket listens the connections requested by client
 	listen(sd, 6);
 	
 	while(1){
+
+		//accepts pending connection requests from queue(FIFO) and create connected socket of each request
 		player1=accept(sd,(struct sockaddr*)NULL,NULL);
 		player2=accept(sd,(struct sockaddr*)NULL,NULL);
-		printf("Two clients joined\n");
-		if(!fork())
+		printf("Two clients joined.\n");
+
+		if(!fork()) //For every 2 players joined, child process is created for a new game between them
 		{
-		  servicePlayers(player1, player2);
+			//child process calls servicePlayer method for client 1 and client 2 to play dice game
+			servicePlayers(player1, player2);
 		}
 	}
 	
