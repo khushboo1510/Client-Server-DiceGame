@@ -1,3 +1,13 @@
+/*  Online DiceGame
+
+	Team names:
+	Khushboo Mehta - 110005899
+	Aditi Desai - 110005940
+	
+	Guided By:
+	Dr. Boubakeur Boufama
+	Dr. Osama Hamzeh */
+
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
