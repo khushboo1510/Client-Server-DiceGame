@@ -72,6 +72,7 @@ void servicePlayers(int player1, int player2){
 			close(player2);		//closes client 2 socket
 			exit(5);
 		}
+		sleep(2);
 
 		printf("Referee: TITI plays:\n");
 		write(player2, "You can now play", 50);		//sends message to client 2 to play its turn
@@ -90,7 +91,8 @@ void servicePlayers(int player1, int player2){
 			write(player1, "Game over: you lost the game", 50);	//sends losing message to client 2
 			close(player1);		//closes client 1 socket
 			exit(5);
-		}		
+		}
+		sleep(2);		
   }
     exit(1); 
 }
