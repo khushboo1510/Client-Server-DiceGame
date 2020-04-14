@@ -13,32 +13,32 @@
 
 int main(int argc, char *argv[])
 {	
-	srand(time(NULL));
+	srand(time(NULL)); //generate a new batch of pseudo-random numbers
 	signal(SIGINT, SIG_IGN);
 	int server, portNumber, n;
 	int clientScore[2];
 	struct sockaddr_in servAdd;     // server socket address
 	char message[255];
 	
-	if(argc != 3){
+	if(argc != 3){ //checks whether port number and server's IP address is passes as command line arguement
 		printf("Call model: %s <IP Address> <Port Number>\n", argv[0]);
 		exit(0);
 	}
 	
-	if((server = socket(AF_INET, SOCK_STREAM, 0))<0){
+	if((server = socket(AF_INET, SOCK_STREAM, 0))<0){ //checks whether socket is created or not
 		fprintf(stderr, "Cannot create socket\n");
 		exit(1);
 	}
 	
-	servAdd.sin_family = AF_INET;
+	servAdd.sin_family = AF_INET; //Domain for Internet, AF -> Address Family
 	sscanf(argv[2], "%d", &portNumber);
-	servAdd.sin_port = htons((uint16_t)portNumber);
+	servAdd.sin_port = htons((uint16_t)portNumber); //host to network for short integer : port number
 
-	if(inet_pton(AF_INET, argv[1], &servAdd.sin_addr) < 0){
+	if(inet_pton(AF_INET, argv[1], &servAdd.sin_addr) < 0){ // checks whether input is a valid IPv4 dotted-decimal string or not
 		fprintf(stderr, " inet_pton() has failed\n");
 		exit(2);
 	}
-	if(connect(server, (struct sockaddr *) &servAdd, sizeof(servAdd))<0){
+	if(connect(server, (struct sockaddr *) &servAdd, sizeof(servAdd))<0){ //checks whether the connection with server is established or not
 		fprintf(stderr, "connect() has failed, exiting\n");
 		exit(3);
 	}
