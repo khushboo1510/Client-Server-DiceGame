@@ -78,7 +78,7 @@ void servicePlayers(int player1, int player2){
 			close(player1);		//closes client 1 socket
 			write(player2, "Game over: you lost the game",50);	//sends losing message to client 2	
 			close(player2);		//closes client 2 socket
-			exit(5);
+			exit(0);
 		}
 		sleep(2);
 
@@ -98,9 +98,9 @@ void servicePlayers(int player1, int player2){
 			close(player2);		//closes client 2 socket
 			write(player1, "Game over: you lost the game", 50);	//sends losing message to client 2
 			close(player1);		//closes client 1 socket
-			exit(5);
+			exit(0);
 		}
 		sleep(2);		
   }
-    exit(1); 
+    exit(0); 
 }

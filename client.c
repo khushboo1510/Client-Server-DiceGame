@@ -58,11 +58,11 @@ int main(int argc, char *argv[])
 			} else if(!strcasecmp(message, "Game over: you won the game")){		//checks server message if client has won
 				fprintf(stderr, "%s\n","I won the game");
 				close(server);
-				exit(3);
+				exit(0);
 			}else if(!strcasecmp(message, "Game over: you lost the game")){		//checks server message if client has lose
 				fprintf(stderr, "%s\n","I lost the game");
 				close(server);
-				exit(5);
+				exit(0);
 			}
 		}
 		
