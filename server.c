@@ -7,7 +7,7 @@
 	Guided By:
 	Dr. Boubakeur Boufama
 	Dr. Osama Hamzeh */
-	
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 		//accepts pending connection requests from queue(FIFO) and create connected socket of each request
 		player1=accept(sd,(struct sockaddr*)NULL,NULL);
 		player2=accept(sd,(struct sockaddr*)NULL,NULL);
-		printf("Two clients joined.\n");
+		printf("New Game Begins:\n");
 
 		if(!fork()) //For every 2 players joined, child process is created for a new game between them
 		{
