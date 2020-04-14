@@ -42,13 +42,14 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "connect() has failed, exiting\n");
 		exit(3);
 	}
-
+	clientScore[0] = 0;
+	clientScore[1] = 0;
 	while(1){ 
 		if(n=read(server, message, 50)){ 	//reads message from server
 			message[n]='\0';
 
 			if(!strcasecmp(message, "You can now play")){		//checks server message if its client's turn
-				clientScore[0] = (rand() % 6)+1;
+				clientScore[0] = (rand() % 6 ) + 1;
 				clientScore[1] +=  clientScore[0];
 				printf("Points earned: %d\n", clientScore[0]);		//prints score to the screen
 				printf("Total points earned: %d\n", clientScore[1]);
